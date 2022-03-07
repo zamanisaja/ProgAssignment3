@@ -1,25 +1,26 @@
-best <- function (state = "TX", which_outcome="heart attack") {
+best <- function (state = "TX", outcome="heart attack") {
     ## Read outcome data
-    outcome <- read.csv("data/outcome-of-care-measures.csv", colClasses = "character")
+    outcomes <- read.csv("data/outcome-of-care-measures.csv", colClasses = "character")
     
     
     state_index <- 7
     outcome_index <- 0
     
-    if (which_outcome == "heart attack")
+    if (outcome == "heart attack")
       outcome_index <- 11
-    else if (which_outcome == "heart failure")
+    else if (outcome == "heart failure")
       outcome_index <- 17
-    else if (which_outcome == "pneumonia")
+    else if (outcome == "pneumonia")
       outcome_index <- 23
     else {
-      print ("Unvalid outcome!")
-      return() 
+      stop("invalid outcome")
     }
     
+    if (! state %in% outcomes$State)
+      stop("invalid state")
     
-    state_outcome <- subset(outcome, State==state, 
-                            select = c(2, outcome_index), 
+    state_outcome <- subset(outcomes, State==state, 
+                            select = c(2, outcome_index),  # column 2 is the name of the hospital
                             stringsAsFactors = FALSE)
     
     state_outcome[, 2] <- suppressWarnings (as.numeric(state_outcome[, 2] ) )
