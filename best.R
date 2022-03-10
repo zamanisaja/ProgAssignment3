@@ -2,7 +2,6 @@ best <- function (state = "TX", outcome="heart attack") {
     ## Read outcome data
     outcomes <- read.csv("data/outcome-of-care-measures.csv", colClasses = "character")
     
-    
     state_index <- 7
     outcome_index <- 0
     
